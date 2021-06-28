@@ -1,7 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import { CssBaseline, Container } from '@material-ui/core';
+import Navbar from '../layout/Navbar';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <CssBaseline />
+      <Navbar />
+      <Container>
+        <Component {...pageProps} />
+      </Container>
+    </>
+  );
 }
-export default MyApp
+export default MyApp;
