@@ -6,40 +6,32 @@ import {
   CardContent,
   CardActions,
   Typography,
+  Button,
 } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 345,
+      maxWidth: 800,
+      margin: '10px auto',
+    },
+    cardHeader: {
+      textAlign: 'center',
     },
     media: {
       height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: red[500],
+      paddingTop: '56.25%',
     },
   }),
 );
 
-export default function RecipeReviewCard() {
+export default function Story() {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardHeader
+        className={classes.cardHeader}
         title="Shrimp and Chorizo Paella"
         subheader="September 14, 2016"
       />
@@ -55,7 +47,17 @@ export default function RecipeReviewCard() {
           mussels, if you like.
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>Upvote</CardActions>
+      <CardActions>
+        <Button color="primary" variant="contained">
+          Read Full Story
+        </Button>
+        <Button color="primary" variant="contained">
+          Upvote
+        </Button>
+        <Button color="primary" variant="outlined">
+          Downvote
+        </Button>
+      </CardActions>
     </Card>
   );
 }

@@ -1,5 +1,5 @@
-import Card from '../components/Card';
+import Story from '../components/Card';
 
 export default function Home() {
-  return <Card />;
+  return <Story />;
 }
