@@ -1,4 +1,4 @@
-import Story from '../components/Card';
+import Story from '../components/Story';
 
 export default function Home() {
   return <Story />;
