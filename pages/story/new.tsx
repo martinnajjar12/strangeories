@@ -4,6 +4,7 @@ import {
   Container,
   Typography,
   Button,
+  TextareaAutosize,
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -16,6 +17,14 @@ const useStyles = makeStyles({
   },
   buttonMargin: {
     marginTop: 15,
+  },
+  textareaFullWidth: {
+    width: '100%',
+    padding: 10,
+    fontFamily: 'Roboto, Helvetica',
+    '&:focus': {
+      outlineColor: '#303f9f',
+    },
   },
 });
 
@@ -49,12 +58,11 @@ const Form = () => {
           variant="outlined"
           margin="dense"
         />
-        <TextField
-          fullWidth
-          label="Description"
+        <textarea
+          rows={4}
+          placeholder="Description"
           required
-          variant="outlined"
-          margin="dense"
+          className={classes.textareaFullWidth}
         />
         <Button
           className={classes.buttonMargin}

@@ -40,7 +40,7 @@ const Navbar = () => {
               </Grid>
               <Grid item className={classes.grid}>
                 <Link href="/">All Stories</Link>
-                <Link href="/create-story">Create Story</Link>
+                <Link href="/story/new">Create Story</Link>
               </Grid>
             </Grid>
           </Container>
