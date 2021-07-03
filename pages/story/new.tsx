@@ -4,9 +4,9 @@ import {
   Container,
   Typography,
   Button,
-  TextareaAutosize,
 } from '@material-ui/core';
 import { useState } from 'react';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -48,13 +48,22 @@ const Form = () => {
     setState({ ...state, [key]: value });
   };
 
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('/api/create', state);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const classes = useStyles();
   return (
     <Container className={classes.containerWidth}>
       <Typography align="center" component="h1" variant="h4">
         CREATE STORY
       </Typography>
-      <form className={classes.formMargin}>
+      <form className={classes.formMargin} onSubmit={handleSubmit}>
         <TextField
           fullWidth
           label="Title"
