@@ -6,6 +6,7 @@ import {
   Button,
   TextareaAutosize,
 } from '@material-ui/core';
+import { useState } from 'react';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -36,6 +37,17 @@ const useStyles = makeStyles({
 });
 
 const Form = () => {
+  const [state, setState] = useState({
+    title: '',
+    author: '',
+    imageUrl: '',
+    description: '',
+  });
+
+  const changeValue = (key: string, value: string) => {
+    setState({ ...state, [key]: value });
+  };
+
   const classes = useStyles();
   return (
     <Container className={classes.containerWidth}>
@@ -49,6 +61,7 @@ const Form = () => {
           required
           variant="outlined"
           margin="dense"
+          onChange={e => changeValue('title', e.target.value)}
         />
         <TextField
           fullWidth
@@ -56,6 +69,7 @@ const Form = () => {
           required
           variant="outlined"
           margin="dense"
+          onChange={e => changeValue('author', e.target.value)}
         />
         <TextField
           fullWidth
@@ -64,12 +78,14 @@ const Form = () => {
           type="url"
           variant="outlined"
           margin="dense"
+          onChange={e => changeValue('imageUrl', e.target.value)}
         />
         <textarea
           rows={4}
           placeholder="Description *"
           required
           className={classes.textareaFullWidth}
+          onChange={e => changeValue('description', e.target.value)}
         />
         <Button
           className={classes.buttonMargin}
