@@ -21,7 +21,14 @@ const useStyles = makeStyles({
   textareaFullWidth: {
     width: '100%',
     padding: 10,
-    fontFamily: 'Roboto, Helvetica',
+    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+    fontSize: 16,
+    borderColor: '#c0c0c0',
+    borderRadius: 5,
+    color: 'rgba(0, 0, 0, 0.87)',
+    '&:hover': {
+      borderColor: 'rgba(0, 0, 0, 0.87)',
+    },
     '&:focus': {
       outlineColor: '#303f9f',
     },
@@ -60,7 +67,7 @@ const Form = () => {
         />
         <textarea
           rows={4}
-          placeholder="Description"
+          placeholder="Description *"
           required
           className={classes.textareaFullWidth}
         />
