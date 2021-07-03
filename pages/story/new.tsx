@@ -5,8 +5,15 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import axios from 'axios';
+
+const initialState = {
+  title: '',
+  author: '',
+  imageUrl: '',
+  description: '',
+};
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -37,21 +44,18 @@ const useStyles = makeStyles({
 });
 
 const Form = () => {
-  const [state, setState] = useState({
-    title: '',
-    author: '',
-    imageUrl: '',
-    description: '',
-  });
+  const [state, setState] = useState(initialState);
 
   const changeValue = (key: string, value: string) => {
     setState({ ...state, [key]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     try {
-      const response = await axios.post('/api/create', state);
-      console.log(response);
+      axios.post('/api/create', state);
+      setState(initialState);
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +67,7 @@ const Form = () => {
       <Typography align="center" component="h1" variant="h4">
         CREATE STORY
       </Typography>
-      <form className={classes.formMargin} onSubmit={handleSubmit}>
+      <form className={classes.formMargin}>
         <TextField
           fullWidth
           label="Title"
@@ -102,6 +106,7 @@ const Form = () => {
           color="primary"
           type="submit"
           fullWidth
+          onSubmit={e => handleSubmit(e)}
         >
           Submit
         </Button>

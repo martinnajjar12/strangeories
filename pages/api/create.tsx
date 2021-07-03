@@ -6,7 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const data = req.body;
 
     const client = await MongoClient.connect(
-      'mongodb+srv://martin:Muhib@2017@cluster0.wt32o.mongodb.net/strangeories?retryWrites=true&w=majority',
+      'mongodb+srv://martin:abcabcabc@cluster0.wt32o.mongodb.net/strangeories?retryWrites=true&w=majority',
     );
 
     const db = client.db();
