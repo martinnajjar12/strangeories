@@ -24,7 +24,6 @@ export async function getStaticProps() {
         author: strangeStory.author,
       })),
     },
-    revalidate: 1,
   };
 }
 

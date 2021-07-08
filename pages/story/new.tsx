@@ -54,7 +54,7 @@ const Form = () => {
     e.preventDefault();
 
     try {
-      axios.post('/api/create', state);
+      await axios.post('/api/create', state);
       setState(initialState);
     } catch (err) {
       console.log(err);
@@ -104,9 +104,9 @@ const Form = () => {
           className={classes.buttonMargin}
           variant="contained"
           color="primary"
-          type="submit"
+          type="button"
           fullWidth
-          onSubmit={e => handleSubmit(e)}
+          onClick={e => handleSubmit(e)}
         >
           Submit
         </Button>
