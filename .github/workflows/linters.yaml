@@ -2,17 +2,19 @@ name: Linters
 
 on: pull_request
 
-env:
-  FORCE_COLOR: 1
-
 jobs:
-  eslint:
-    name: ESLint
-    runs-on: ubuntu-18.04
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
-          node-version: '12.x'
-      - name: Super-Linter
-        uses: github/super-linter@v4.2.2
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: developement
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
