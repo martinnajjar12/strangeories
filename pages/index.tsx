@@ -41,7 +41,6 @@ export default function Home({
 }: {
   strangeStories: Array<strangeStoriesObj>;
 }) {
-  // return <Story />;
   return strangeStories.map(strangeStory => (
     <Story
       key={strangeStory.id}

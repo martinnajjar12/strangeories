@@ -52,13 +52,8 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    try {
-      await axios.post('/api/create', state);
-      setState(initialState);
-    } catch (err) {
-      console.log(err);
-    }
+    await axios.post('/api/create', state);
+    setState(initialState);
   };
 
   const classes = useStyles();
