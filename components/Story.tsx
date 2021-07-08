@@ -25,26 +25,34 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function Story() {
+export default function Story({
+  title,
+  description,
+  imageUrl,
+  author,
+}: {
+  title: string;
+  description: string;
+  imageUrl: string;
+  author: string;
+}) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardHeader
         className={classes.cardHeader}
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={title}
+        subheader={author}
       />
       <CardMedia
         className={classes.media}
-        image="https://image.shutterstock.com/image-photo/strange-man-metal-head-rocker-260nw-1464278996.jpg"
+        image={imageUrl}
         title="Strange Photo"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
