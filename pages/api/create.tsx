@@ -7,6 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await MongoClient.connect(
       'mongodb+srv://martin:abcabcabc@cluster0.wt32o.mongodb.net/strangeories?retryWrites=true&w=majority',
+      { useUnifiedTopology: true },
     );
 
     const db = client.db();

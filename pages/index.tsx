@@ -4,6 +4,7 @@ import Story from '../components/Story';
 export async function getStaticProps() {
   const client = await MongoClient.connect(
     'mongodb+srv://martin:abcabcabc@cluster0.wt32o.mongodb.net/strangeories?retryWrites=true&w=majority',
+    { useUnifiedTopology: true },
   );
 
   const db = client.db();
