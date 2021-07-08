@@ -1,19 +1,21 @@
-import { MongoClient } from 'mongodb';
+import { connectToDatabase } from '../util/mongodb';
 import Story from '../components/Story';
 
-export async function getStaticProps() {
-  const client = await MongoClient.connect(
-    'mongodb+srv://martin:abcabcabc@cluster0.wt32o.mongodb.net/strangeories?retryWrites=true&w=majority',
-    { useUnifiedTopology: true },
-  );
+interface strangeStoriesObjMongo {
+  title: string;
+  description: string;
+  _id: string;
+  imageUrl: string;
+  author: string;
+}
 
-  const db = client.db();
+export async function getStaticProps() {
+  const { db } = await connectToDatabase();
 
   const strangeoriesCollection = db.collection('strangeories');
 
-  const strangeories = await strangeoriesCollection.find().toArray();
-
-  client.close();
+  const strangeories: Array<strangeStoriesObjMongo> =
+    await strangeoriesCollection.find().toArray();
 
   return {
     props: {

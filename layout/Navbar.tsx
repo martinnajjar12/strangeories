@@ -34,7 +34,7 @@ const Navbar = () => {
       <AppBar position="static">
         <Toolbar>
           <Container>
-            <Grid container justify="space-between" alignItems="center">
+            <Grid container justifyContent="space-between" alignItems="center">
               <Grid item>
                 <Typography variant="h6">Strangeories</Typography>
               </Grid>
