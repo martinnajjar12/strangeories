@@ -15,16 +15,13 @@ export async function getStaticProps() {
 
   return {
     props: {
-      strangeStories: strangeories.map(strangeStory => {
-        console.log(strangeStory);
-        
-        return ({
+      strangeStories: strangeories.map(strangeStory => ({
         title: strangeStory.title,
         description: strangeStory.description,
         id: strangeStory.id,
         imageUrl: strangeStory['image_url'],
         author: strangeStory.author,
-      })}),
+      })),
     },
   };
 }
@@ -42,9 +39,7 @@ export default function Home({
 }: {
   strangeStories: Array<strangeStoriesObj>;
 }) {
-  return strangeStories.map(strangeStory => {
-    console.log(strangeStory.imageUrl);
-    return (
+  return strangeStories.map(strangeStory => (
     <Story
       key={strangeStory.id}
       title={strangeStory.title}
@@ -52,5 +47,5 @@ export default function Home({
       imageUrl={strangeStory.imageUrl}
       author={strangeStory.author}
     />
-  )});
+  ));
 }
