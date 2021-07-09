@@ -1,31 +1,30 @@
-import { connectToDatabase } from '../util/mongodb';
 import Story from '../components/Story';
+import axios from 'axios';
 
-interface strangeStoriesObjMongo {
+interface strangeStoriesObjRails {
   title: string;
   description: string;
-  _id: string;
-  imageUrl: string;
+  id: string;
+  'image_url': string;
   author: string;
 }
 
 export async function getStaticProps() {
-  const { db } = await connectToDatabase();
-
-  const strangeoriesCollection = db.collection('strangeories');
-
-  const strangeories: Array<strangeStoriesObjMongo> =
-    await strangeoriesCollection.find().toArray();
+  const response = await axios.get('https://strangeories.herokuapp.com/api/v1/stories')
+  const strangeories: Array<strangeStoriesObjRails> = response.data  
 
   return {
     props: {
-      strangeStories: strangeories.map(strangeStory => ({
+      strangeStories: strangeories.map(strangeStory => {
+        console.log(strangeStory);
+        
+        return ({
         title: strangeStory.title,
         description: strangeStory.description,
-        id: strangeStory._id.toString(),
-        imageUrl: strangeStory.imageUrl,
+        id: strangeStory.id,
+        imageUrl: strangeStory['image_url'],
         author: strangeStory.author,
-      })),
+      })}),
     },
   };
 }
@@ -43,7 +42,9 @@ export default function Home({
 }: {
   strangeStories: Array<strangeStoriesObj>;
 }) {
-  return strangeStories.map(strangeStory => (
+  return strangeStories.map(strangeStory => {
+    console.log(strangeStory.imageUrl);
+    return (
     <Story
       key={strangeStory.id}
       title={strangeStory.title}
@@ -51,5 +52,5 @@ export default function Home({
       imageUrl={strangeStory.imageUrl}
       author={strangeStory.author}
     />
-  ));
+  )});
 }

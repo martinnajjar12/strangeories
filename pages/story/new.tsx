@@ -11,7 +11,7 @@ import axios from 'axios';
 const initialState = {
   title: '',
   author: '',
-  imageUrl: '',
+  'image_url': '',
   description: '',
 };
 
@@ -52,7 +52,7 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post('/api/create', state);
+    await axios.post('https://strangeories.herokuapp.com/api/v1/stories', state);
     setState(initialState);
   };
 
@@ -86,7 +86,7 @@ const Form = () => {
           type="url"
           variant="outlined"
           margin="dense"
-          onChange={e => changeValue('imageUrl', e.target.value)}
+          onChange={e => changeValue('image_url', e.target.value)}
         />
         <textarea
           rows={4}
