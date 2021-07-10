@@ -9,7 +9,7 @@ interface strangeStoriesObjRails {
   author: string;
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const response = await axios.get('https://strangeories.herokuapp.com/api/v1/stories')
   const strangeories: Array<strangeStoriesObjRails> = response.data  
 
@@ -23,7 +23,6 @@ export async function getStaticProps() {
         author: strangeStory.author,
       })),
     },
-    revalidate: 60
   };
 }
 
