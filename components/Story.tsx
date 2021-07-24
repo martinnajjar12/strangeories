@@ -47,7 +47,8 @@ export default function Story({
   const classes = useStyles();
 
   const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    const id = e.target.getAttribute('id');
+    const element = e.target as HTMLButtonElement;
+    const id = element.getAttribute('id');
     await axios.post(
       `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`,
       {
@@ -57,7 +58,8 @@ export default function Story({
   };
 
   const handleMinusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    const id = e.target.getAttribute('id');
+    const element = e.target as HTMLButtonElement;
+    const id = element.getAttribute('id');
     await axios.post(
       `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`,
       {
