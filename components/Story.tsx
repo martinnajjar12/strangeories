@@ -48,27 +48,22 @@ export default function Story({
 
   const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
     const id = e.target.getAttribute('id');
-    console.log(id);
-    await axios
-      .post(`https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`, {
+    await axios.post(
+      `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`,
+      {
         count: 1,
-      })
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
+      },
+    );
   };
 
   const handleMinusButton = async (e: FormEvent<HTMLButtonElement>) => {
     const id = e.target.getAttribute('id');
-    console.log(id);
-    await axios
-      .post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`,
-        {
-          count: 1,
-        },
-      )
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
+    await axios.post(
+      `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`,
+      {
+        count: 1,
+      },
+    );
   };
 
   return (
