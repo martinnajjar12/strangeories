@@ -11,7 +11,7 @@ import axios from 'axios';
 const initialState = {
   title: '',
   author: '',
-  'image_url': '',
+  image_url: '',
   description: '',
 };
 
@@ -52,7 +52,10 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post('https://strangeories.herokuapp.com/api/v1/stories', state);
+    await axios.post(
+      'https://strangeories.herokuapp.com/api/v1/stories',
+      state,
+    );
     setState(initialState);
   };
 

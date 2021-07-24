@@ -5,13 +5,15 @@ interface strangeStoriesObjRails {
   title: string;
   description: string;
   id: string;
-  'image_url': string;
+  image_url: string;
   author: string;
 }
 
 export async function getServerSideProps() {
-  const response = await axios.get('https://strangeories.herokuapp.com/api/v1/stories')
-  const strangeories: Array<strangeStoriesObjRails> = response.data  
+  const response = await axios.get(
+    'https://strangeories.herokuapp.com/api/v1/stories',
+  );
+  const strangeories: Array<strangeStoriesObjRails> = response.data;
 
   return {
     props: {
@@ -41,6 +43,7 @@ export default function Home({
 }) {
   return strangeStories.map(strangeStory => (
     <Story
+      id={strangeStory.id}
       key={strangeStory.id}
       title={strangeStory.title}
       description={strangeStory.description}
