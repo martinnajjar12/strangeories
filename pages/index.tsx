@@ -33,7 +33,7 @@ interface strangeStoriesObj {
   description: string;
   id: string;
   imageUrl: string;
-  author: string;
+  author: {name: string};
 }
 
 export default function Home({

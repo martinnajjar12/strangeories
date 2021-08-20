@@ -7,6 +7,9 @@ import {
 } from '@material-ui/core';
 import { FormEvent, useState } from 'react';
 import axios from 'axios';
+import { useToken } from '../../auth/useToken';
+import FormModal from '../../containers/FormModal';
+import LogInModal from '../../components/LogInModal';
 
 const initialState = {
   title: '',
@@ -45,6 +48,10 @@ const useStyles = makeStyles({
 
 const Form = () => {
   const [state, setState] = useState(initialState);
+  const [token, setToken] = useToken();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const changeValue = (key: string, value: string) => {
     setState({ ...state, [key]: value });
@@ -52,16 +59,24 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post(
-      'https://strangeories.herokuapp.com/api/v1/stories',
-      state,
-    );
-    setState(initialState);
+    if (token) {
+      await axios.post(
+        'https://strangeories.herokuapp.com/api/v1/stories',
+        state,
+        {
+          headers: token,
+        },
+      );
+      setState(initialState);
+    } else {
+      setOpen(true);
+    }
   };
 
   const classes = useStyles();
   return (
     <Container className={classes.containerWidth}>
+      <FormModal ModalBody={LogInModal} open={open} handleClose={handleClose} />
       <Typography align="center" component="h1" variant="h4">
         CREATE STORY
       </Typography>

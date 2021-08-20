@@ -10,8 +10,10 @@ interface newToken {
 
 export const useToken = () => {
   const [token, setTokenInternal] = useState(() => {
-    const localToken = localStorage.getItem('token');
-    if (localToken) return JSON.parse(localToken);
+    if (typeof localStorage !== 'undefined') {
+      const localToken = localStorage.getItem('token');
+      if (localToken) return JSON.parse(localToken);
+    }
     return null;
   });
 

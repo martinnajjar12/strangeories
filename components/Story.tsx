@@ -8,12 +8,16 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
-import { FormEvent } from 'react';
-import axios from 'axios';
+import Image from 'next/image';
+import { FormEvent, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
 import { green } from '@material-ui/core/colors';
+import FormModal from '../containers/FormModal';
+import LogInModal from './LogInModal';
+import { useToken } from '../auth/useToken';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,61 +45,70 @@ export default function Story({
   title: string;
   description: string;
   imageUrl: string;
-  author: string;
+  author: { name: string};
   id: string;
 }) {
   const classes = useStyles();
+  const [token, setToken] = useToken();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    const element = e.target as HTMLButtonElement;
-    const id = element.getAttribute('id');
-    await axios.post(
-      `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`,
-      {
-        count: 1,
-      },
-    );
+    if (token) {
+      const element = e.target as HTMLButtonElement;
+      const id = element.getAttribute('id');
+      await axios.post(
+        `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`
+      );
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleMinusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    const element = e.target as HTMLButtonElement;
-    const id = element.getAttribute('id');
-    await axios.post(
-      `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`,
-      {
-        count: 1,
-      },
-    );
+    if (token) {
+      const element = e.target as HTMLButtonElement;
+      const id = element.getAttribute('id');
+      await axios.post(
+        `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`
+      );
+    } else {
+      setOpen(true);
+    }
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        className={classes.cardHeader}
-        title={title}
-        subheader={author}
-      />
-      <CardMedia
-        className={classes.media}
-        image={imageUrl}
-        title="Strange Photo"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton style={{ color: green[500] }}>
-          <DetailsIcon fontSize="large" />
-        </IconButton>
-        <IconButton color="primary" onClick={e => handlePlusButton(e)}>
-          <ExposurePlus1Icon fontSize="large" id={id} />
-        </IconButton>
-        <IconButton color="secondary" onClick={e => handleMinusButton(e)}>
-          <ExposureNeg1Icon id={id} fontSize="large" />
-        </IconButton>
-      </CardActions>
-    </Card>
+    <>
+      <FormModal ModalBody={LogInModal} open={open} handleClose={handleClose} />
+      <Card className={classes.root}>
+        <CardHeader
+          className={classes.cardHeader}
+          title={title}
+          subheader={author.name}
+        />
+        <CardMedia
+          className={classes.media}
+          image={imageUrl}
+          title="Strange Photo"
+        />  
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <IconButton style={{ color: green[500] }}>
+            <DetailsIcon fontSize="large" />
+          </IconButton>
+          <IconButton color="primary" onClick={e => handlePlusButton(e)}>
+            <ExposurePlus1Icon fontSize="large" id={id} />
+          </IconButton>
+          <IconButton color="secondary" onClick={e => handleMinusButton(e)}>
+            <ExposureNeg1Icon id={id} fontSize="large" />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </>
   );
 }
