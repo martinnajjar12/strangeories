@@ -1,26 +1,26 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 interface newToken {
-  uid: string;
-  'access-token': string;
-  'token-type': string;
-  expiry: string;
-  client: string;
+  uid: string
+  'access-token': string
+  'token-type': string
+  expiry: string
+  client: string
 }
 
 export const useToken = () => {
   const [token, setTokenInternal] = useState(() => {
     if (typeof localStorage !== 'undefined') {
-      const localToken = localStorage.getItem('token');
-      if (localToken) return JSON.parse(localToken);
+      const localToken = localStorage.getItem('token')
+      if (localToken) return JSON.parse(localToken)
     }
-    return null;
+    return null
   });
 
   const setToken = (newToken: newToken) => {
-    localStorage.setItem('token', JSON.stringify(newToken));
-    setTokenInternal(newToken);
+    localStorage.setItem('token', JSON.stringify(newToken))
+    setTokenInternal(newToken)
   };
 
-  return [token, setToken];
+  return [token, setToken]
 };

@@ -42,6 +42,7 @@ const Navbar = () => {
                 <Link href="/">All Stories</Link>
                 <Link href="/story/new">Create Story</Link>
                 <Link href="/sign-in">Login</Link>
+                <Link href="/sign-up">Register</Link>
               </Grid>
             </Grid>
           </Container>
