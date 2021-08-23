@@ -41,6 +41,7 @@ const Navbar = () => {
               <Grid item className={classes.grid}>
                 <Link href="/">All Stories</Link>
                 <Link href="/story/new">Create Story</Link>
+                <Link href="/sign-in">Login</Link>
               </Grid>
             </Grid>
           </Container>

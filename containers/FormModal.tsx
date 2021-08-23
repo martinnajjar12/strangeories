@@ -1,12 +1,12 @@
+import React from 'react';
 import { Modal } from '@material-ui/core';
-import { useToken } from '../auth/useToken';
 
 const FormModal = ({
   ModalBody,
   open,
   handleClose,
 }: {
-  ModalBody: React.FC;
+  ModalBody: React.ComponentType;
   open: boolean;
   handleClose: () => void;
 }) => {
@@ -17,10 +17,7 @@ const FormModal = ({
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      {/* <ModalBody /> */}
-      <div>
-        <h1>Hello world</h1>
-      </div>
+      <ModalBody />
     </Modal>
   );
 };

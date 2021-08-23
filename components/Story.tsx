@@ -8,15 +8,12 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
-import Image from 'next/image';
 import { FormEvent, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
 import { green } from '@material-ui/core/colors';
-import FormModal from '../containers/FormModal';
-import LogInModal from './LogInModal';
 import { useToken } from '../auth/useToken';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,7 +49,6 @@ export default function Story({
   const [token, setToken] = useToken();
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => setOpen(false);
 
   const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
     if (token) {
@@ -80,7 +76,6 @@ export default function Story({
 
   return (
     <>
-      <FormModal ModalBody={LogInModal} open={open} handleClose={handleClose} />
       <Card className={classes.root}>
         <CardHeader
           className={classes.cardHeader}
