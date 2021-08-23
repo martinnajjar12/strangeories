@@ -15,12 +15,12 @@ export const useToken = () => {
       if (localToken) return JSON.parse(localToken)
     }
     return null
-  });
+  })
 
   const setToken = (newToken: newToken) => {
     localStorage.setItem('token', JSON.stringify(newToken))
     setTokenInternal(newToken)
-  };
+  }
 
   return [token, setToken]
-};
+}
