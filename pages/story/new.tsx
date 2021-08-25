@@ -5,9 +5,9 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
-import { useToken } from '../../auth/useToken';
+import { UserContext } from '../../auth/UserContext';
 
 const initialState = {
   title: '',
@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 
 const Form = () => {
   const [state, setState] = useState(initialState);
-  const [token, setToken] = useToken();
+  const { token, setToken } = useContext(UserContext)
   const [open, setOpen] = useState(false);
 
   const changeValue = (key: string, value: string) => {

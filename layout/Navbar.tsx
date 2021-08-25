@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { UserContext } from '../auth/UserContext';
-import { useToken } from '../auth/useToken';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Navbar = () => {
-  useToken()
   const classes = useStyles();
   const { token, setToken } = useContext(UserContext);
   const [isLogged, setIsLogged] = useState(false);
@@ -51,28 +49,6 @@ const Navbar = () => {
       setIsLogged(true);
     }
   }, [token]);
- 
-
-  if (!isLogged) return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <Container>
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <Typography variant="h6">Strangeories</Typography>
-              </Grid>
-              <Grid item className={classes.grid}>
-                <Link href="/">All Stories</Link>
-                <Link href="/sign-in">Login</Link>
-                <Link href="/sign-up">Register</Link>
-              </Grid>
-            </Grid>
-          </Container>
-        </Toolbar>
-      </AppBar>
-    </div>
-  )
 
   return (
     <div>
@@ -85,19 +61,31 @@ const Navbar = () => {
               </Grid>
               <Grid item className={classes.grid}>
                 <Link href="/">All Stories</Link>
-                <Link href="/story/new">Create Story</Link>
-                <Button onClick={() => {
-                  Cookies.remove('token')
-                  setToken({
-                    uid: '',
-                    'access-token': '',
-                    'token-type': '',
-                    expiry: '',
-                    client: ''
-                  })
-                }}>
-                  Sign Out
-                </Button>
+                { isLogged
+                  ? (
+                    <>
+                      <Link href="/story/new">Create Story</Link>
+                      <Button onClick={() => {
+                        Cookies.remove('token')
+                        setToken({
+                          uid: '',
+                          'access-token': '',
+                          'token-type': '',
+                          expiry: '',
+                          client: ''
+                        })
+                      }}>
+                        Sign Out
+                      </Button>
+                    </>
+                  )
+                  : (
+                     <>
+                     <Link href="/sign-in">Login</Link>
+                     <Link href="/sign-up">Register</Link>
+                   </>
+                  )
+                }
               </Grid>
             </Grid>
           </Container>

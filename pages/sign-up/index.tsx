@@ -1,8 +1,9 @@
 import React, { FormEvent, useState } from 'react';
 import { Button, TextField, Paper, Typography, Container, makeStyles } from '@material-ui/core';
 import axios from 'axios';
-import { useToken } from '../../auth/useToken';
 import { useRouter } from 'next/dist/client/router';
+import { useContext } from 'react';
+import { UserContext } from '../../auth/UserContext';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -23,7 +24,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [token, setToken] = useToken();
+  const { token, setToken } = useContext(UserContext);
   const router = useRouter();
 
   const submitHandler = async (e: FormEvent<HTMLButtonElement>) => {

@@ -1,17 +1,9 @@
 import Cookies from 'js-cookie'
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { useEffect } from 'react';
+import { UserContextInterface } from '../typeScriptInterfaces';
 
-interface UserContextInterface {
-  token: {
-    uid: string
-    'access-token': string
-    'token-type': string
-    expiry: string
-    client: string
-  } | null,
-  setToken: Dispatch<SetStateAction<{ uid: string; 'access-token': string; 'token-type': string; expiry: string; client: string; }>>
-}
+
 
 export const UserContext = createContext<UserContextInterface>({
   token: null,

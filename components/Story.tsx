@@ -8,13 +8,13 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import axios from 'axios';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
 import { green } from '@material-ui/core/colors';
-import { useToken } from '../auth/useToken';
+import { UserContext } from '../auth/UserContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,7 +46,7 @@ export default function Story({
   id: string;
 }) {
   const classes = useStyles();
-  const [token, setToken] = useToken();
+  const { token, setToken } = useContext(UserContext);
   const [open, setOpen] = useState(false);
 
 

@@ -1,10 +1,10 @@
 import React, { FormEvent, useContext, useState } from 'react';
 import { Button, TextField, Paper, Typography, Container, makeStyles } from '@material-ui/core';
 import axios from 'axios';
-import { useToken } from '../../auth/useToken';
 import { useRouter } from 'next/dist/client/router';
 import { UserContext } from '../../auth/UserContext';
 import Cookies from 'js-cookie';
+import { newToken } from '../../typeScriptInterfaces';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -18,14 +18,6 @@ const useStyles = makeStyles({
     marginBottom: 50,
   }
 })
-
-interface newToken {
-  uid: string
-  'access-token': string
-  'token-type': string
-  expiry: string
-  client: string
-}
 
 const SignIn = () => {
   const classes = useStyles();

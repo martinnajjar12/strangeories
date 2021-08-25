@@ -1,13 +1,6 @@
 import Story from '../components/Story';
 import axios from 'axios';
-
-interface strangeStoriesObjRails {
-  title: string;
-  description: string;
-  id: string;
-  image_url: string;
-  author: string;
-}
+import { strangeStoriesObj, strangeStoriesObjRails } from '../typeScriptInterfaces';
 
 export async function getServerSideProps() {
   const response = await axios.get(
@@ -26,14 +19,6 @@ export async function getServerSideProps() {
       })),
     },
   };
-}
-
-interface strangeStoriesObj {
-  title: string;
-  description: string;
-  id: string;
-  imageUrl: string;
-  author: {name: string};
 }
 
 export default function Home({
