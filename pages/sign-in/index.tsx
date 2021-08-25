@@ -51,10 +51,45 @@ const SignIn = () => {
       <Container className={classes.containerWidth}>
         <Paper className={classes.paperDimensions}>
           <form>
-            <Typography className={classes.typographyMargin} variant="h1" align="center">Log In</Typography>
-            <TextField value={email} onChange={e => setEmail(e.target.value)} autoFocus required color="primary" variant="outlined" fullWidth type="email" margin="normal" label="Email" />
-            <TextField value={password} onChange={e => setPassword(e.target.value)} required color="primary" variant="outlined" fullWidth type="password" margin="normal" label="Password" />
-            <Button type="submit" color="primary" fullWidth variant="contained" onClick={e => submitHandler(e)}>Sign In</Button>
+            <Typography
+              className={classes.typographyMargin}
+              variant="h1"
+              align="center"
+            >
+              Log In
+            </Typography>
+            <TextField
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              autoFocus
+              required
+              color="primary"
+              variant="outlined"
+              fullWidth
+              type="email"
+              margin="normal"
+              label="Email"
+            />
+            <TextField
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              color="primary"
+              variant="outlined"
+              fullWidth
+              type="password"
+              margin="normal"
+              label="Password"
+            />
+            <Button
+              type="submit"
+              color="primary"
+              fullWidth
+              variant="contained"
+              onClick={e => submitHandler(e)}
+            >
+              Sign In
+            </Button>
           </form>
         </Paper>
       </Container>
