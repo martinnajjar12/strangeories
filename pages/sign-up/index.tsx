@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
 import { useContext } from 'react';
 import { UserContext } from '../../auth/UserContext';
+import { newToken } from '../../typeScriptInterfaces';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -24,20 +26,23 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const { token, setToken } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
   const router = useRouter();
 
   const submitHandler = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const res = await axios.post('https://strangeories.herokuapp.com/auth/sign_in', {email, password, passwordConfirmation, name});
-      setToken({
+      const newToken: newToken = {
         uid: res.headers.uid,
         'access-token': res.headers['access-token'],
         expiry: res.headers.expiry,
         client: res.headers.client,
         'token-type': res.headers['token-type']
-      });
+      }
+
+      Cookies.set('token', JSON.stringify(newToken));
+      setToken(newToken);
       setEmail('');
       setPassword('');
       setPasswordConfirmation('');
@@ -46,8 +51,6 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
     }
-    
-    
   }
 
   return (
