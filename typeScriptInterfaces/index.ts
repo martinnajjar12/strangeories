@@ -1,4 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+/* eslint camelcase: ["error", {allow: ["image_url"]}] */
+
+import { Dispatch, SetStateAction } from 'react'
 
 export interface UserContextInterface {
   token: {
