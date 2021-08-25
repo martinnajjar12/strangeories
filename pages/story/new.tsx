@@ -15,27 +15,15 @@ import { useRouter } from 'next/dist/client/router';
 import { newToken } from '../../typeScriptInterfaces';
 import { DropzoneArea } from 'material-ui-dropzone';
 
-const initialState = {
+const initialState: {
+  title: string,
+  image: string | Blob,
+  description: string
+} = {
   title: '',
-  author: '',
-  // image_url: '',
-  files: [],
+  image: '',
   description: '',
 };
-
-// const useStyles = makeStyles({
-//   containerWidth: {
-//     maxWidth: 600,
-//     marginTop: 40,
-//   },
-//   formMargin: {
-//     marginTop: 40,
-//   },
-//   buttonMargin: {
-//     marginTop: 15,
-//   },
-//   
-// });
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -91,16 +79,21 @@ const Form = () => {
 
   const noUser: boolean = JSON.stringify(token) === JSON.stringify(emptyToken)
 
-  const changeValue = (key: string, value: string | any[]) => setState({ ...state, [key]: value });
+  const changeValue = (key: string, value: string | File) => setState({ ...state, [key]: value });
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (noUser) {
       router.push('/sign-in');
     } else {
+      const data = new FormData();
+      data.append('image', state.image);
+      data.append('title', state.title);
+      data.append('description', state.description);
+
       const res = await axios.post(
         'https://strangeories.herokuapp.com/api/v1/stories',
-        state,
+        data,
         {
           headers: token,
         },
@@ -116,6 +109,7 @@ const Form = () => {
       Cookies.set('token', JSON.stringify(newToken));
       setToken(newToken);
       setState(initialState);
+      router.push('/');
     }
   };
 
@@ -142,19 +136,8 @@ const Form = () => {
             label="Title"
             margin="normal"
           />
-          <TextField
-            value={state.author}
-            onChange={e => changeValue('author', e.target.value)}
-            autoFocus
-            required
-            fullWidth
-            color="primary"
-            variant="outlined"
-            label="Author"
-            margin="normal"
-          />
           <DropzoneArea
-            onChange={files => changeValue('files', files)}
+            onChange={files => changeValue('image', files[0])}
             acceptedFiles={['image/*']}
             dropzoneText={"Drag and drop an image here or click"}
             showAlerts={['error']}
