@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 interface newToken {
   uid: string
@@ -10,17 +11,17 @@ interface newToken {
 
 export const useToken = () => {
   const [token, setTokenInternal] = useState(() => {
-    if (typeof localStorage !== 'undefined') {
-      const localToken = localStorage.getItem('token')
-      if (localToken) return JSON.parse(localToken)
-    }
+    const localToken = Cookies.get('token')
+    if (localToken) return JSON.parse(localToken)
     return null
   })
 
-  const setToken = (newToken: newToken) => {
-    localStorage.setItem('token', JSON.stringify(newToken))
+  const setToken = (newToken: newToken | null) => {
+    Cookies.set('token', JSON.stringify(newToken))
     setTokenInternal(newToken)
   }
 
-  return [token, setToken]
+  const returnedValue: [newToken | null,  (newToken: newToken | null) => void] = [token, setToken]
+
+  return returnedValue
 }

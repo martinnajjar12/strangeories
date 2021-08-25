@@ -1,8 +1,10 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import { Button, TextField, Paper, Typography, Container, makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import { useToken } from '../../auth/useToken';
 import { useRouter } from 'next/dist/client/router';
+import { UserContext } from '../../auth/UserContext';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   containerWidth: {
@@ -17,32 +19,40 @@ const useStyles = makeStyles({
   }
 })
 
+interface newToken {
+  uid: string
+  'access-token': string
+  'token-type': string
+  expiry: string
+  client: string
+}
+
 const SignIn = () => {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useToken();
+  const { setToken } = useContext(UserContext)
   const router = useRouter()
 
   const submitHandler = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const res = await axios.post('https://strangeories.herokuapp.com/auth/sign_in', {email, password});
-      setToken({
+      const newToken: newToken = {
         uid: res.headers.uid,
         'access-token': res.headers['access-token'],
         expiry: res.headers.expiry,
         client: res.headers.client,
         'token-type': res.headers['token-type']
-      });
+      }
+      Cookies.set('token', JSON.stringify(newToken));
+      setToken(newToken);
       setEmail('');
       setPassword('');
       router.push('/');
     } catch (error) {
       console.log(error);
-    }
-    
-    
+    } 
   }
 
   return (
