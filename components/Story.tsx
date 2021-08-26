@@ -68,9 +68,6 @@ export default function Story({
     if (noUser) {
       router.push('/sign-in');      
     } else {
-      // const element = e.target as HTMLButtonElement;
-      // const id = element.attributes.getNamedItem('id')?.value;
-      // console.log(`http://localhost:3000/api/v1/stories/${id}/likes`);
       const id = plusRef.current?.id;
 
       const res = await axios.post(
@@ -96,9 +93,6 @@ export default function Story({
     if (noUser) {
       router.push('/sign-in');
     } else {
-      // const element = e.target as HTMLButtonElement;
-      // const id = element.attributes.getNamedItem('id')?.value;
-      // console.log(`https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`)
       const id = minusRef.current?.id;
 
       const res = await axios.post(
