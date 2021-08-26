@@ -66,15 +66,18 @@ const Navbar = () => {
                     <>
                       <Link href="/story/new">Create Story</Link>
                       <Button onClick={() => {
-                        Cookies.remove('token')
-                        setToken({
-                          uid: '',
-                          'access-token': '',
-                          'token-type': '',
-                          expiry: '',
-                          client: ''
-                        })
-                      }}>
+                          Cookies.remove('token')
+                          setToken({
+                            uid: '',
+                            'access-token': '',
+                            'token-type': '',
+                            expiry: '',
+                            client: ''
+                          })
+                        }}
+                        color="secondary"
+                        variant="outlined"
+                      >
                         Sign Out
                       </Button>
                     </>
