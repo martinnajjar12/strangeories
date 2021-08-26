@@ -8,13 +8,16 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, RefObject, useContext, useRef, useState } from 'react';
 import axios from 'axios';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
 import { green } from '@material-ui/core/colors';
 import { UserContext } from '../auth/UserContext';
+import { useRouter } from 'next/dist/client/router';
+import { newToken } from '../typeScriptInterfaces';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,30 +50,73 @@ export default function Story({
 }) {
   const classes = useStyles();
   const { token, setToken } = useContext(UserContext);
-  const [open, setOpen] = useState(false);
+  const plusRef: RefObject<SVGSVGElement> = useRef(null);
+  const minusRef: RefObject<SVGSVGElement> = useRef(null);
+  const router = useRouter();
 
+  const emptyToken = {
+    uid: '',
+    'access-token': '',
+    'token-type': '',
+    expiry: '',
+    client: ''
+  }
+
+  const noUser: boolean = JSON.stringify(token) === JSON.stringify(emptyToken);
 
   const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    if (token) {
-      const element = e.target as HTMLButtonElement;
-      const id = element.getAttribute('id');
-      await axios.post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`
-      );
+    if (noUser) {
+      router.push('/sign-in');      
     } else {
-      setOpen(true);
+      // const element = e.target as HTMLButtonElement;
+      // const id = element.attributes.getNamedItem('id')?.value;
+      // console.log(`http://localhost:3000/api/v1/stories/${id}/likes`);
+      const id = plusRef.current?.id;
+
+      const res = await axios.post(
+        `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`, {}, {
+          headers: token
+        }
+      );
+
+      const newToken: newToken = {
+        uid: res.headers.uid,
+        'access-token': res.headers['access-token'],
+        expiry: res.headers.expiry,
+        client: res.headers.client,
+        'token-type': res.headers['token-type']
+      }
+
+      Cookies.set('token', JSON.stringify(newToken));
+      setToken(newToken);
     }
   };
 
   const handleMinusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    if (token) {
-      const element = e.target as HTMLButtonElement;
-      const id = element.getAttribute('id');
-      await axios.post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`
-      );
+    if (noUser) {
+      router.push('/sign-in');
     } else {
-      setOpen(true);
+      // const element = e.target as HTMLButtonElement;
+      // const id = element.attributes.getNamedItem('id')?.value;
+      // console.log(`https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`)
+      const id = minusRef.current?.id;
+
+      const res = await axios.post(
+        `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`, {}, {
+          headers: token
+        }
+      );
+
+      const newToken: newToken = {
+        uid: res.headers.uid,
+        'access-token': res.headers['access-token'],
+        expiry: res.headers.expiry,
+        client: res.headers.client,
+        'token-type': res.headers['token-type']
+      }
+
+      Cookies.set('token', JSON.stringify(newToken));
+      setToken(newToken);
     }
   };
 
@@ -97,10 +143,10 @@ export default function Story({
             <DetailsIcon fontSize="large" />
           </IconButton>
           <IconButton color="primary" onClick={e => handlePlusButton(e)}>
-            <ExposurePlus1Icon fontSize="large" id={id} />
+            <ExposurePlus1Icon fontSize="large" id={id} ref={plusRef} />
           </IconButton>
           <IconButton color="secondary" onClick={e => handleMinusButton(e)}>
-            <ExposureNeg1Icon id={id} fontSize="large" />
+            <ExposureNeg1Icon id={id} fontSize="large" ref={minusRef} />
           </IconButton>
         </CardActions>
       </Card>
