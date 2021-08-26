@@ -100,17 +100,22 @@ export default function Story({
             headers: token
           }
         );
+
+        if (res.headers['access-token']) {
+          console.log(res.headers['access-token']);
+          
+          const newToken: newToken = {
+            uid: res.headers.uid,
+            'access-token': res.headers['access-token'],
+            expiry: res.headers.expiry,
+            client: res.headers.client,
+            'token-type': res.headers['token-type']
+          }
   
-        const newToken: newToken = {
-          uid: res.headers.uid,
-          'access-token': res.headers['access-token'],
-          expiry: res.headers.expiry,
-          client: res.headers.client,
-          'token-type': res.headers['token-type']
+          Cookies.set('token', JSON.stringify(newToken));
+          setToken(newToken);
         }
-  
-        Cookies.set('token', JSON.stringify(newToken));
-        setToken(newToken);
+
         likeOrDislike === 'likes' ? setLocalLikes(res.data.likes.length) : setLocalDislikes(res.data.dislikes.length);
       } catch (error) {
         if (error.response.headers['access-token']) {
