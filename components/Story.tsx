@@ -102,8 +102,6 @@ export default function Story({
         );
 
         if (res.headers['access-token']) {
-          console.log(res.headers['access-token']);
-          
           const newToken: newToken = {
             uid: res.headers.uid,
             'access-token': res.headers['access-token'],
