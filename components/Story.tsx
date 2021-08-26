@@ -13,9 +13,12 @@ import {
   RefObject,
   useContext,
   useRef,
+  useState,
 } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
@@ -59,9 +62,21 @@ export default function Story({
 }) {
   const classes = useStyles();
   const { token, setToken } = useContext(UserContext);
+  const [localLikes, setLocalLikes] = useState(likes.length);
+  const [localDislikes, setLocalDislikes] = useState(dislikes.length);
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const plusRef: RefObject<SVGSVGElement> = useRef(null);
   const minusRef: RefObject<SVGSVGElement> = useRef(null);
   const router = useRouter();
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const emptyToken = {
     uid: '',
@@ -79,22 +94,42 @@ export default function Story({
     } else {
       const id = likeOrDislike === 'likes' ? plusRef.current?.id : minusRef.current?.id;
 
-      const res = await axios.post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/${likeOrDislike}`, {}, {
-          headers: token
+      try {
+        const res = await axios.post(
+          `https://strangeories.herokuapp.com/api/v1/stories/${id}/${likeOrDislike}`, {}, {
+            headers: token
+          }
+        );
+  
+        const newToken: newToken = {
+          uid: res.headers.uid,
+          'access-token': res.headers['access-token'],
+          expiry: res.headers.expiry,
+          client: res.headers.client,
+          'token-type': res.headers['token-type']
         }
-      );
+  
+        Cookies.set('token', JSON.stringify(newToken));
+        setToken(newToken);
+        likeOrDislike === 'likes' ? setLocalLikes(res.data.likes.length) : setLocalDislikes(res.data.dislikes.length);
+      } catch (error) {
+        if (error.response.headers['access-token']) {
+          const newToken: newToken = {
+            uid: error.response.headers.uid,
+            'access-token': error.response.headers['access-token'],
+            expiry: error.response.headers.expiry,
+            client: error.response.headers.client,
+            'token-type': error.response.headers['token-type']
+          }
 
-      const newToken: newToken = {
-        uid: res.headers.uid,
-        'access-token': res.headers['access-token'],
-        expiry: res.headers.expiry,
-        client: res.headers.client,
-        'token-type': res.headers['token-type']
+          Cookies.set('token', JSON.stringify(newToken));
+          setToken(newToken);
+        }
+        error.response.data['author_id']
+        ? setErrorMessage("You've already liked or disliked this story")
+        : setErrorMessage('Sorry, something went wrong!')
+        setOpen(true);
       }
-
-      Cookies.set('token', JSON.stringify(newToken));
-      setToken(newToken);
     }
   };
 
@@ -120,16 +155,21 @@ export default function Story({
           <IconButton style={{ color: green[500] }}>
             <DetailsIcon fontSize="large" />
           </IconButton>
-          <Typography color="primary">{likes.length}</Typography>
+          <Typography color="primary">{localLikes}</Typography>
           <IconButton color="primary" onClick={e => likesDislikesHandler(e, 'likes')}>
             <ExposurePlus1Icon fontSize="large" id={id} ref={plusRef} />
           </IconButton>
           <IconButton color="secondary" onClick={e => likesDislikesHandler(e, 'dislikes')}>
             <ExposureNeg1Icon id={id} fontSize="large" ref={minusRef} />
           </IconButton>
-          <Typography color="secondary">-{dislikes.length}</Typography>
+          <Typography color="secondary">-{localDislikes}</Typography>
         </CardActions>
       </Card>
+      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+        <MuiAlert elevation={6} variant="filled" severity="error" onClose={handleClose}>
+          {errorMessage}
+        </MuiAlert>
+      </Snackbar>
     </>
   );
 }
