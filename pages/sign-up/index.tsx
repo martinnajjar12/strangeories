@@ -32,7 +32,7 @@ const SignUp = () => {
   const submitHandler = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://strangeories.herokuapp.com/auth/sign_in', {email, password, passwordConfirmation, name});
+      const res = await axios.post('https://strangeories.herokuapp.com/auth/', {email, password, passwordConfirmation, name});
       const newToken: newToken = {
         uid: res.headers.uid,
         'access-token': res.headers['access-token'],
