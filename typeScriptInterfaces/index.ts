@@ -27,6 +27,8 @@ export interface strangeStoriesObjRails {
   id: string;
   image_url: string;
   author: string;
+  likes: any[];
+  dislikes: any[];
 }
 
 export interface strangeStoriesObj {
@@ -35,4 +37,6 @@ export interface strangeStoriesObj {
   id: string;
   imageUrl: string;
   author: {name: string};
+  likes: any[];
+  dislikes: any[];
 }

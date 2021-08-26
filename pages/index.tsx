@@ -16,6 +16,8 @@ export async function getServerSideProps() {
         id: strangeStory.id,
         imageUrl: strangeStory['image_url'],
         author: strangeStory.author,
+        likes: strangeStory.likes,
+        dislikes: strangeStory.dislikes,
       })),
     },
   };
@@ -34,6 +36,8 @@ export default function Home({
       description={strangeStory.description}
       imageUrl={strangeStory.imageUrl}
       author={strangeStory.author}
+      likes={strangeStory.likes}
+      dislikes={strangeStory.dislikes}
     />
   ));
 }

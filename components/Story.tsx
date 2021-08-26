@@ -8,8 +8,14 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core';
-import { FormEvent, RefObject, useContext, useRef, useState } from 'react';
+import {
+  FormEvent,
+  RefObject,
+  useContext,
+  useRef,
+} from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import DetailsIcon from '@material-ui/icons/Details';
 import ExposurePlus1Icon from '@material-ui/icons/ExposurePlus1';
 import ExposureNeg1Icon from '@material-ui/icons/ExposureNeg1';
@@ -17,7 +23,6 @@ import { green } from '@material-ui/core/colors';
 import { UserContext } from '../auth/UserContext';
 import { useRouter } from 'next/dist/client/router';
 import { newToken } from '../typeScriptInterfaces';
-import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,12 +46,16 @@ export default function Story({
   imageUrl,
   author,
   id,
+  likes,
+  dislikes,
 }: {
   title: string;
   description: string;
   imageUrl: string;
   author: { name: string};
   id: string;
+  likes: any[];
+  dislikes: any[];
 }) {
   const classes = useStyles();
   const { token, setToken } = useContext(UserContext);
@@ -111,12 +120,14 @@ export default function Story({
           <IconButton style={{ color: green[500] }}>
             <DetailsIcon fontSize="large" />
           </IconButton>
+          <Typography color="primary">{likes.length}</Typography>
           <IconButton color="primary" onClick={e => likesDislikesHandler(e, 'likes')}>
             <ExposurePlus1Icon fontSize="large" id={id} ref={plusRef} />
           </IconButton>
           <IconButton color="secondary" onClick={e => likesDislikesHandler(e, 'dislikes')}>
             <ExposureNeg1Icon id={id} fontSize="large" ref={minusRef} />
           </IconButton>
+          <Typography color="secondary">-{dislikes.length}</Typography>
         </CardActions>
       </Card>
     </>
