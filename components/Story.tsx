@@ -64,39 +64,14 @@ export default function Story({
 
   const noUser: boolean = JSON.stringify(token) === JSON.stringify(emptyToken);
 
-  const handlePlusButton = async (e: FormEvent<HTMLButtonElement>) => {
+  const likesDislikesHandler = async (e: FormEvent<HTMLButtonElement>, likeOrDislike: string) => {
     if (noUser) {
       router.push('/sign-in');      
     } else {
-      const id = plusRef.current?.id;
+      const id = likeOrDislike === 'likes' ? plusRef.current?.id : minusRef.current?.id;
 
       const res = await axios.post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/likes`, {}, {
-          headers: token
-        }
-      );
-
-      const newToken: newToken = {
-        uid: res.headers.uid,
-        'access-token': res.headers['access-token'],
-        expiry: res.headers.expiry,
-        client: res.headers.client,
-        'token-type': res.headers['token-type']
-      }
-
-      Cookies.set('token', JSON.stringify(newToken));
-      setToken(newToken);
-    }
-  };
-
-  const handleMinusButton = async (e: FormEvent<HTMLButtonElement>) => {
-    if (noUser) {
-      router.push('/sign-in');
-    } else {
-      const id = minusRef.current?.id;
-
-      const res = await axios.post(
-        `https://strangeories.herokuapp.com/api/v1/stories/${id}/dislikes`, {}, {
+        `https://strangeories.herokuapp.com/api/v1/stories/${id}/${likeOrDislike}`, {}, {
           headers: token
         }
       );
@@ -136,10 +111,10 @@ export default function Story({
           <IconButton style={{ color: green[500] }}>
             <DetailsIcon fontSize="large" />
           </IconButton>
-          <IconButton color="primary" onClick={e => handlePlusButton(e)}>
+          <IconButton color="primary" onClick={e => likesDislikesHandler(e, 'likes')}>
             <ExposurePlus1Icon fontSize="large" id={id} ref={plusRef} />
           </IconButton>
-          <IconButton color="secondary" onClick={e => handleMinusButton(e)}>
+          <IconButton color="secondary" onClick={e => likesDislikesHandler(e, 'dislikes')}>
             <ExposureNeg1Icon id={id} fontSize="large" ref={minusRef} />
           </IconButton>
         </CardActions>
