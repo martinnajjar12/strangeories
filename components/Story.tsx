@@ -36,14 +36,18 @@ const useStyles = makeStyles((theme: Theme) =>
     cardHeader: {
       textAlign: 'center',
       '& h2': {
-        fontSize: 'inherit',
-        margin: 'inherit',
-        fontWeight: 'inherit',
+        fontSize: '1.5rem',
+        fontWeight: 400,
+        lineHeight: 1.334,
+        letterSpacing: 0,
+        margin: 0,
       },
       '& h3': {
-        fontSize: 'inherit',
-        margin: 'inherit',
-        fontWeight: 'inherit',
+        fontSize: '1rem',
+        margin: 0,
+        fontWeight: 400,
+        color: theme.palette.text.secondary,
+        lineHeight: 1.5,
       }
     },
     media: {
@@ -150,6 +154,7 @@ export default function Story({
     <>
       <Card className={classes.root} component="article">
         <CardHeader
+          disableTypography
           className={classes.cardHeader}
           title={<h2>{title}</h2>}
           subheader={<h3>{author.name}</h3>}
