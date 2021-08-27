@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <UserContextProvider>
       <CssBaseline />
       <Navbar />
-      <Container>
+      <Container component="main">
         <Component {...pageProps} />
       </Container>
     </UserContextProvider>
