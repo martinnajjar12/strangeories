@@ -92,7 +92,7 @@ export default function Story({
     if (noUser) {
       router.push('/sign-in');      
     } else {
-      const id = likeOrDislike === 'likes' ? plusRef.current?.id : minusRef.current?.id;
+      const id = likeOrDislike === 'likes' ? plusRef.current?.id.split('-')[1] : minusRef.current?.id.split('-')[1];
 
       try {
         const res = await axios.post(
@@ -160,10 +160,10 @@ export default function Story({
           </IconButton>
           <Typography color="primary">{localLikes}</Typography>
           <IconButton color="primary" onClick={e => likesDislikesHandler(e, 'likes')}>
-            <ExposurePlus1Icon fontSize="large" id={id} ref={plusRef} />
+            <ExposurePlus1Icon fontSize="large" id={`plus-${id}`} ref={plusRef} />
           </IconButton>
           <IconButton color="secondary" onClick={e => likesDislikesHandler(e, 'dislikes')}>
-            <ExposureNeg1Icon id={id} fontSize="large" ref={minusRef} />
+            <ExposureNeg1Icon id={`minus-${id}`} fontSize="large" ref={minusRef} />
           </IconButton>
           <Typography color="secondary">-{localDislikes}</Typography>
         </CardActions>
