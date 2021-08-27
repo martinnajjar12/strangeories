@@ -1,34 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">Strangeories - FrontEnd</h1>
+
+> Web app to post and fetch strange stories from an API. ( You can find the [backend repo here](https://github.com/martinnajjar12/strangeories_backend)). Whenever you feel bored, and want to hear a weird story, you can move here to listen to some different stories.
+
+![screenshot](./screenshot.png)
+
+<p align="center">Screenshot</p>
+
+<p>Additional description about the project and its features.</p>
+
+## Built With
+
+- Next JS
+- TypeScript
+- Material UI
+
+## Features
+
+- Guests can see and read stories, but they can't like, dislike it or create a story.
+- Guests can create account which will be stored in the database.
+- Whoever have an account can login to access all the features.
+- User can like, dislike and create new stories which will be stored in a database while the picture will be stored in AWS S3 Bucket.
+
+**Email and password to check the app:**
+Email: martin@martinnajjar.tech
+password: 123456
+
+
+## Live Demo
+
+[Live Demo Link](https://strangeories.vercel.app/)
+
 
 ## Getting Started
 
-First, run the development server:
+
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+- NodeJS
+- TypeScript
+- Code Editor
+
+### Setup
+
+Open up a terminal (after installing Git) and run the following command:
 
 ```bash
-npm run dev
-# or
-yarn dev
+git clone https://github.com/martinnajjar12/calories-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+and hit Enter.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+**OR**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+Download a zip version of the project from the above button.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Install
 
-## Learn More
+To install the required dependencies run this command in your terminal:
 
-To learn more about Next.js, take a look at the following resources:
+```Node
+npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+In order to open it in your browser, you need to dispatch the following command:
 
-## Deploy on Vercel
+```Node
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Note:** You will not be able to interact with the server because of CORS (Cross-Origin Resource Sharing) restriction.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Authors
+
+👤 **Martin Najjar**
+
+- GitHub: [Martin Najjar](https://github.com/martinnajjar12)
+- Twitter: [Martin Najjar](https://twitter.com/martin_najjar)
+- LinkedIn: [Martin Najjar](https://linkedin.com/in/martinnajjar12)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](https://github.com/martinnajjar12/strangeories/issues).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## Acknowledgments
+
+- App idea by me 😉
+
+## 📝 License
+
+This project is MIT licensed.

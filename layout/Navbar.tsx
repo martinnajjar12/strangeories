@@ -7,12 +7,19 @@ import {
   Theme,
   Container,
   Grid,
+  Button,
 } from '@material-ui/core';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { useContext, useEffect } from 'react';
+import { useState } from 'react';
+import { UserContext } from '../auth/UserContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grid: {
+      display: 'flex',
+      listStyle: 'none',
       '& a': {
         marginRight: 15,
         color: '#fff',
@@ -28,19 +35,72 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Navbar = () => {
   const classes = useStyles();
+  const { token, setToken } = useContext(UserContext);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (JSON.stringify(token) == JSON.stringify({
+      uid: '',
+      'access-token': '',
+      'token-type': '',
+      expiry: '',
+      client: ''
+    })) {
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
+    }
+  }, [token]);
 
   return (
     <div>
       <AppBar position="static">
         <Toolbar>
           <Container>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid component="nav" container justifyContent="space-between" alignItems="center">
               <Grid item>
                 <Typography variant="h6">Strangeories</Typography>
               </Grid>
-              <Grid item className={classes.grid}>
-                <Link href="/">All Stories</Link>
-                <Link href="/story/new">Create Story</Link>
+              <Grid component="ul" item className={classes.grid} alignItems="center" justifyContent="space-between">
+                <li>
+                  <Link href="/">All Stories</Link>
+                </li>
+                { isLogged
+                  ? (
+                      <>
+                        <li>
+                          <Link href="/story/new">Create Story</Link>
+                        </li>
+                        <li>
+                          <Button onClick={() => {
+                              Cookies.remove('token')
+                              setToken({
+                                uid: '',
+                                'access-token': '',
+                                'token-type': '',
+                                expiry: '',
+                                client: ''
+                              })
+                            }}
+                            color="secondary"
+                            variant="outlined"
+                          >
+                            Sign Out
+                          </Button>
+                        </li>
+                      </>
+                  )
+                  : (
+                      <>
+                        <li>
+                          <Link href="/sign-in">Login</Link>
+                        </li>
+                        <li>
+                          <Link href="/sign-up">Register</Link>
+                        </li>
+                      </>
+                  )
+                }
               </Grid>
             </Grid>
           </Container>
