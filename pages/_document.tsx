@@ -14,8 +14,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <title>Strangeories</title>
         </Head>
         <body>
           <Main />
