@@ -9,16 +9,15 @@ import {
 import { FormEvent, useContext, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-
+import { DropzoneArea } from 'material-ui-dropzone';
 import { UserContext } from '../../auth/UserContext';
 import { useRouter } from 'next/dist/client/router';
 import { newToken } from '../../typeScriptInterfaces';
-import { DropzoneArea } from 'material-ui-dropzone';
 
 const initialState: {
-  title: string,
-  image: string | Blob,
-  description: string
+  title: string;
+  image: string | Blob;
+  description: string;
 } = {
   title: '',
   image: '',
@@ -60,8 +59,8 @@ const useStyles = makeStyles({
   buttonMargin: {
     marginTop: 16,
     marginBottom: 8,
-  }
-})
+  },
+});
 
 const Form = () => {
   const classes = useStyles();
@@ -74,12 +73,13 @@ const Form = () => {
     'access-token': '',
     'token-type': '',
     expiry: '',
-    client: ''
-  }
+    client: '',
+  };
 
-  const noUser: boolean = JSON.stringify(token) === JSON.stringify(emptyToken)
+  const noUser: boolean = JSON.stringify(token) === JSON.stringify(emptyToken);
 
-  const changeValue = (key: string, value: string | File) => setState({ ...state, [key]: value });
+  const changeValue = (key: string, value: string | File) =>
+    setState({ ...state, [key]: value });
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -103,8 +103,8 @@ const Form = () => {
         'access-token': res.headers['access-token'],
         expiry: res.headers.expiry,
         client: res.headers.client,
-        'token-type': res.headers['token-type']
-      }
+        'token-type': res.headers['token-type'],
+      };
 
       Cookies.set('token', JSON.stringify(newToken));
       setToken(newToken);
@@ -139,7 +139,7 @@ const Form = () => {
           <DropzoneArea
             onChange={files => changeValue('image', files[0])}
             acceptedFiles={['image/*']}
-            dropzoneText={"Drag and drop an image here or click"}
+            dropzoneText={'Drag and drop an image here or click'}
             showAlerts={['error']}
             filesLimit={1}
             dropzoneClass={classes.dropZoneMargin}
